@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Market Point Platform</title>
+<link rel="stylesheet" href="index.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Welcome to Market Point</h1>
+        <nav>
+            <button id="dashboardBtn">Dashboard</button>
+            <button id="marketplaceBtn">Marketplace</button>
+        </nav>
+    </header>
+    <section id="dashboard" class="hidden">
+        <h2>Dashboard</h2>
+        <p>Total Points: <span id="totalPoints">0</span></p>
+    </section>
+    <section id="marketplace" class="hidden">
+        <h2>Marketplace</h2>
+        <p>Exchange your points here:</p>
+        <div>
+            <button onclick="exchangePoints(10)">Exchange for 10 Points</button>
+            <button onclick="exchangePoints(20)">Exchange for 20 Points</button>
+        </div>
+    </section>
+</div>
+<script src="index.js"></script>
+</body>
+</html>
