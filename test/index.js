@@ -10,6 +10,10 @@ document.getElementById('marketplaceBtn').addEventListener('click', function() {
     document.getElementById('dashboard').classList.remove('active');
 });
 
+document.getElementById('goToLogin').addEventListener('click', function() {
+    window.location.href = 'login.html';
+});
+
 function exchangePoints(points) {
     if (totalPoints >= points) {
         totalPoints -= points;

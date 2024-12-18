@@ -18,6 +18,8 @@ document.getElementById('loginForm').addEventListener('submit', function(event) 
     console.log('Logging in:', username, password);
     // Here you would normally handle the login with an API request
 });
+document.getElementById('goToHome').addEventListener('click', function() {
+    window.location.href = 'index.html'});
 
 document.getElementById('registerForm').addEventListener('submit', function(event) {
     event.preventDefault();
@@ -27,3 +29,4 @@ document.getElementById('registerForm').addEventListener('submit', function(even
     console.log('Registering:', username, email, password);
     // Here you would normally handle the registration with an API request
 });
+
