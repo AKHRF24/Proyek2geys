@@ -9,4 +9,20 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
+    public function dashboard()
+    {
+        return view('user.page.dashboard');
+    }
+    public function market()
+    {
+        return view('user.page.market');
+    }
+    public function academic()
+    {
+        return view('user.page.academic');
+    }
+    public function quiz()
+    {
+        return view('user.page.quiz');
+    }
 }
