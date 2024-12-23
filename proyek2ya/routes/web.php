@@ -14,9 +14,9 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/admin', function () {
+    return view('admin.page.halaman');
+});
 // Route::get('/dashboard', function () {
 //     return view('user.page.dashboard');
 // });
@@ -25,5 +25,4 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [App\Http\Controllers\Controller::class, 'dashboard'])->name('dashboard');
 Route::get('/market', [App\Http\Controllers\Controller::class, 'market'])->name('market');
-Route::get('/academic', [App\Http\Controllers\Controller::class, 'academic'])->name('academic');
 Route::get('/quiz', [App\Http\Controllers\Controller::class, 'quiz'])->name('quiz');

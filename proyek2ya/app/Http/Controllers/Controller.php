@@ -17,10 +17,6 @@ class Controller extends BaseController
     {
         return view('user.page.market');
     }
-    public function academic()
-    {
-        return view('user.page.academic');
-    }
     public function quiz()
     {
         return view('user.page.quiz');

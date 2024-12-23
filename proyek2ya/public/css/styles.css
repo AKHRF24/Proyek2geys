@@ -36,3 +36,41 @@ body, html {
     padding: 20px;
     background-color: #fff;
 }
+
+.product-card {
+    width: 350px;
+    margin: 20px auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-card img {
+    width: 325px;
+    height: 325px;
+    margin-top: 10px;
+    object-fit: cover;
+}
+
+.product-card .card-body {
+    padding: 10px;
+    text-align: center;
+}
+
+.product-card .card-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: #f8f9fa;
+}
+
+.product-card .btn {
+    font-size: 15px;
+}
+
+.product-card p {
+    margin: 0;
+}
