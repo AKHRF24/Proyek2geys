@@ -4,14 +4,14 @@
     <div class="collapse navbar-collapse flex-grow-0" id="navbarNavDropdown">
         <ul class="navbar-nav flex-column gap-3 px-2">
             <li class="navbar-item rounded">
-                <a href="dashboard" class="text-white">
+                <a href="" class="text-white">
                     <div class="d-flex gap-3">
                         <p class="m-0 p-0">Dashboard</p>
                     </div>
                 </a>
             </li>
             <li class="navbar-item rounded">
-                <a href="product">
+                <a href="admina">
                     <div class="d-flex gap-3">
                         <p class="m-0 p-0">Product</p>
                     </div>
@@ -19,16 +19,9 @@
             </li>
             </li>
             <li class="navbar-item rounded">
-                <a href="pembayaran">
+                <a href="adminb">
                     <div class="d-flex gap-3">
                         <p class="m-0 p-0">Metode Pembayaran</p>
-                    </div>
-                </a>
-            </li>
-            <li class="navbar-item rounded">
-                <a href="ekspedisi">
-                    <div class="d-flex gap-3">
-                        <p class="m-0 p-0">Expedisi</p>
                     </div>
                 </a>
             </li>

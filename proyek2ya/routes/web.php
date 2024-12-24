@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/admin', function () {
-    return view('admin.page.halaman');
+Route::get('/admina', function () {
+    return view('admin.page.product');
+});
+Route::get('/adminb', function () {
+    return view('admin.page.bayar');
 });
 // Route::get('/dashboard', function () {
 //     return view('user.page.dashboard');
@@ -23,6 +26,6 @@ Route::get('/admin', function () {
 
 Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/dashboard', [App\Http\Controllers\Controller::class, 'dashboard'])->name('dashboard');
+Route::get('/user/dashboard', [App\Http\Controllers\Controller::class, 'dashboard'])->name('dashboard');
 Route::get('/market', [App\Http\Controllers\Controller::class, 'market'])->name('market');
 Route::get('/quiz', [App\Http\Controllers\Controller::class, 'quiz'])->name('quiz');
