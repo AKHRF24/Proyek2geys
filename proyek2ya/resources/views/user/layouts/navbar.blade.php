@@ -14,7 +14,7 @@
                     <a class="nav-link" href="{{ url('/dashboard') }}">Dashboard</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ url('/market') }}">Marketplace</a>
+                    <a href="{{ route('market') }}">Market</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{{ url('/quiz') }}">Quiz</a>
