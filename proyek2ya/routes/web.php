@@ -2,9 +2,9 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\MarketPointController;
-use App\Http\Controllers\ItemsController;
-use App\Http\Models\Items;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\Controller;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -16,34 +16,25 @@ use App\Http\Models\Items;
 |
 */
 
-Route::get('/admina', function () {
-    return view('admin/page/product');
+// Halaman Admin
+Route::get('/dashboard', function () {
+    return view('admin.page.dashboard');
 });
-Route::get('/adminb', function () {
-    return view('admin.page.bayar');
-});
-
-Route::get('/items/create', function () {
-    return view('admin.page.items.create');
-});
-
-// Route::get('/dashboard', function () {
-//     return view('user.page.dashboard');
-// });
 
 Auth::routes();
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/user/dashboard', [App\Http\Controllers\Controller::class, 'dashboard'])->name('dashboard');
+
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/user/dashboard', [App\Http\Controllers\Controller::class, 'dashboard'])->name('dashboard');
 Route::get('/market', [App\Http\Controllers\Controller::class, 'market'])->name('market');
-Route::get('/quiz', [App\Http\Controllers\Controller::class, 'quiz'])->name('quiz');
+// Route::get('/quiz', [App\Http\Controllers\Controller::class, 'quiz'])->name('quiz');
 
-
-// Rute untuk halaman Items
-Route::get('/items', [ItemsController::class, 'index'])->name('items.index'); // Menampilkan daftar items
-Route::get('/items/create', [ItemsController::class, 'create'])->name('items.create'); // Form tambah item
-Route::post('/items', [ItemsController::class, 'store'])->name('items.store'); // Menyimpan item baru
-Route::get('/items/{id}', [ItemsController::class, 'show'])->name('items.show'); // Menampilkan detail item
-Route::get('/items/{id}/edit', [ItemsController::class, 'edit'])->name('items.edit'); // Form edit item
-Route::put('/items/{id}', [ItemsController::class, 'update'])->name('items.update'); // Mengupdate item
-Route::delete('/items/{id}', [ItemsController::class, 'destroy'])->name('items.destroy'); // Menghapus item
-
+// Admin Routes (Prefix: admin/page)
+Route::prefix('admin/page')->group(function () {
+    Route::get('dashboard', [Controller::class, 'index'])->name('admin.page.dashboard');
+    Route::get('market', [ProductController::class, 'index'])->name('admin.page.market');
+    Route::get('product/create', [ProductController::class, 'create'])->name('admin.page.product.create');
+    Route::post('market', [ProductController::class, 'store'])->name('admin.page.product.store');
+    Route::get('product/{product}/edit', [ProductController::class, 'edit'])->name('admin.page.product.edit');
+    Route::put('product/{product}', [ProductController::class, 'update'])->name('admin.page.product.update');
+    Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('admin.page.product.destroy');
+});

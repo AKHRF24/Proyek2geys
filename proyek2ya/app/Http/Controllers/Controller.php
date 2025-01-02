@@ -21,4 +21,8 @@ class Controller extends BaseController
     {
         return view('user.page.quiz');
     }
+    public function index()
+    {
+        return view('admin.page.dashboard');
+    }
 }
