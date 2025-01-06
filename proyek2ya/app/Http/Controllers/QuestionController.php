@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
 use App\Models\Questions;
 use App\Models\Answers;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -70,5 +72,41 @@ class QuestionController extends Controller
     {
         $question->delete();
         return redirect()->route('admin.page.question.index')->with('success', 'Question deleted successfully!');
+    }
+    public function submitQuiz(Request $request, Questions $question)
+    {
+        $validated = $request->validate([
+            'answers' => 'required|array',
+            'answers.*' => 'string',
+        ]);
+
+        $correctAnswers = $question->answers->where('is_correct', true)->pluck('answer')->toArray();
+        $userAnswers = $validated['answers'];
+
+        $score = 0;
+        foreach ($userAnswers as $answer) {
+            if (in_array($answer, $correctAnswers)) {
+                $score++;
+            }
+        }
+
+        $pointsEarned = $score * 10;
+
+
+        $user = Auth::user();
+        $user->points += $pointsEarned;
+        $user->save();
+
+        return redirect()->route('user.page.quiz.results')->with('success', "Quiz completed! You've earned {$pointsEarned} points.");
+    }
+    public function show(Questions $question)
+    {
+        $question->load('answers');
+        return view('user.page.quiz.show', compact('question'));
+    }
+    public function listQuizzes()
+    {
+        $questions = Questions::with('answers')->get();
+        return view('user.page.quiz.list', compact('questions'));
     }
 }

@@ -6,7 +6,6 @@ style="margin-top: 5%; margin-bottom: 1%;
        margin-left: 10%; margin-right: 10%;
        padding: 50px; background-color: rgb(237, 236, 234);
        border-style: groove">
-       {{--  --}}
        <div class="">
            <div class="container mb-5">
                <div class="row justify-content-center mt-5">
@@ -29,6 +28,12 @@ style="margin-top: 5%; margin-bottom: 1%;
            </div>
        </div>
        {{--  --}}
+       <div class="container">
+            <h1>Welcome, {{ Auth::user()->name }}</h1>
+            <p>Your Current Points: <strong>{{ Auth::user()->points }}</strong></p>
+            <a href="{{ route('user.quiz.list') }}" class="btn btn-primary">Take a Quiz</a>
+        </div>
+
        <div class="card p-5"
        style="margin-left: 10%; margin-right: 10%;
               padding: 50px;

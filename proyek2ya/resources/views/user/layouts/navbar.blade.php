@@ -7,7 +7,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-            <a class="nav-link text-light" href="{{ route('user.page.quiz.quiz') }}">Quizzes</a>
+            <a class="nav-link text-light" href="{{ route('user.page.quiz.list') }}">Quest</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link text-light" href="{{ route('user.page.market') }}">Market</a>

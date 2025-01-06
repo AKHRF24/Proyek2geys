@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->integer('points')->default(0);
             $table->string('email')->unique();
             $table->string('password');
+            $table->integer('points')->default(0);
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->timestamps();
         });

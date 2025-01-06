@@ -1,21 +1,18 @@
 <style>
-    /* Gaya umum sidebar */
 .sidebar .nav-link {
     color: white;
     background-color: transparent;
     transition: all 0.3s ease;
 }
 
-/* Hover efek */
 .sidebar .nav-link:hover {
-    background-color: #495057; /* Abu-abu gelap */
-    color: #f8f9fa; /* Putih terang */
+    background-color: #495057;
+    color: #f8f9fa;
 }
 
-/* Warna halaman aktif */
 .sidebar .nav-link.active {
-    background-color: #0d6efd; /* Biru Bootstrap */
-    color: white; /* Teks putih */
+    background-color: #0d6efd;
+    color: white;
     font-weight: bold;
 }
 
@@ -27,14 +24,12 @@
     </button>
     <div class="collapse navbar-collapse" id="sidebarNav">
         <ul class="navbar-nav flex-column gap-3">
-            <!-- Dashboard -->
             <li class="nav-item">
                 <a href="" class="nav-link text-white">
                     <i class="bi bi-speedometer2 me-2"></i>
                     Dashboard
                 </a>
             </li>
-            <!-- Product -->
             <li class="nav-item">
                 <a href="{{ route('admin.page.market') }}" class="nav-link text-white {{ Request::path() === '/admin/page/market' ? 'bg-warning' : '' }}">
                     <i class="bi bi-box-seam me-2"></i>

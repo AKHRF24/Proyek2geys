@@ -11,7 +11,6 @@ class answers extends Model
     use HasFactory;
     protected $fillable = ['question_id', 'answer', 'is_correct'];
 
-    // Relasi ke questions
     public function question()
     {
         return $this->belongsTo(Questions::class, 'question_id');

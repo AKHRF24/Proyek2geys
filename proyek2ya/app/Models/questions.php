@@ -11,7 +11,6 @@ class questions extends Model
     use HasFactory;
     protected $fillable = ['question', 'correct_answer'];
 
-    // Relasi ke answers
     public function answers()
     {
         return $this->hasMany(Answers::class, 'question_id');
