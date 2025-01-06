@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 
@@ -9,8 +10,8 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $product = Product::all();
-        return view('admin.page.market', compact('product'));
+        $products = Product::all();
+        return view('admin.page.market', compact('products'));
     }
 
     public function create()
@@ -20,13 +21,13 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
             'point' => 'required|numeric',
-            'description' => 'required',
+            'description' => 'required|string',
         ]);
 
-        Product::create($request->only(['name', 'point','description']));
+        Product::create($validated);
 
         return redirect()->route('admin.page.market')->with('success', 'Product created successfully.');
     }
@@ -38,13 +39,13 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
-        $request->validate([
-            'name' => 'required',
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
             'point' => 'required|numeric',
-            'description' => 'required',
+            'description' => 'required|string',
         ]);
 
-        $product->update($request->only(['name', 'point','description']));
+        $product->update($validated);
 
         return redirect()->route('admin.page.market')->with('success', 'Product updated successfully.');
     }
@@ -54,5 +55,11 @@ class ProductController extends Controller
         $product->delete();
 
         return redirect()->route('admin.page.market')->with('success', 'Product deleted successfully.');
+    }
+
+    public function userMarket()
+    {
+        $products = Product::all();
+        return view('user.page.market', compact('products'));
     }
 }

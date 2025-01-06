@@ -11,6 +11,7 @@
                     <form method="POST" action="{{ route('register') }}">
                         @csrf
 
+                        <!-- Name -->
                         <div class="row mb-3">
                             <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Name') }}</label>
 
@@ -25,6 +26,7 @@
                             </div>
                         </div>
 
+                        <!-- Email -->
                         <div class="row mb-3">
                             <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Email Address') }}</label>
 
@@ -39,6 +41,7 @@
                             </div>
                         </div>
 
+                        <!-- Password -->
                         <div class="row mb-3">
                             <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password') }}</label>
 
@@ -53,6 +56,7 @@
                             </div>
                         </div>
 
+                        <!-- Confirm Password -->
                         <div class="row mb-3">
                             <label for="password-confirm" class="col-md-4 col-form-label text-md-end">{{ __('Confirm Password') }}</label>
 
@@ -61,6 +65,25 @@
                             </div>
                         </div>
 
+                        <!-- Role -->
+                        <div class="row mb-3">
+                            <label for="role" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
+
+                            <div class="col-md-6">
+                                <select id="role" name="role" class="form-control @error('role') is-invalid @enderror" required>
+                                    <option value="user" {{ old('role') == 'user' ? 'selected' : '' }}>User</option>
+                                    <option value="admin" {{ old('role') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                </select>
+
+                                @error('role')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <!-- Submit -->
                         <div class="row mb-0">
                             <div class="col-md-6 offset-md-4">
                                 <button type="submit" class="btn btn-primary">

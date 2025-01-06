@@ -29,7 +29,7 @@
         <ul class="navbar-nav flex-column gap-3">
             <!-- Dashboard -->
             <li class="nav-item">
-                <a href="{{ route('admin.page.dashboard') }}" class="nav-link text-white">
+                <a href="" class="nav-link text-white">
                     <i class="bi bi-speedometer2 me-2"></i>
                     Dashboard
                 </a>
@@ -42,15 +42,15 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a href="" class="nav-link text-white">
+                <a href="{{ route('admin.page.question.index') }}" class="nav-link text-white">
                     <i class="bi bi-credit-card me-2"></i>
-                    Quiz
+                    Quest
                 </a>
             </li>
             <li class="nav-item">
                 <a href="" class="nav-link text-white">
                     <i class="bi bi-credit-card me-2"></i>
-                    Leaderboard
+                    Transactions
                 </a>
             </li>
             <li class="nav-item">
@@ -59,7 +59,7 @@
                     <i class="bi bi-box-arrow-right me-2"></i>
                     Logout
                 </a>
-                <form id="logout-form" action="" method="POST" style="display: none;">
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                     @csrf
                 </form>
             </li>

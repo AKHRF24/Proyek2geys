@@ -11,10 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('transactions', function (Blueprint $table) {
+        Schema::create('answers', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('question_id'); // Foreign key ke questions
+            $table->string('answer');
+            $table->boolean('is_correct')->default(false);
             $table->timestamps();
+
+            // Definisi foreign key
+            $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
         });
+
+
     }
 
     /**
@@ -22,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('transactions');
+        Schema::dropIfExists('answers');
     }
 };

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 
@@ -19,13 +20,30 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+    public function logout(Request $request)
+    {
+        auth()->logout(); // Logout user
+        $request->session()->invalidate(); // Invalidate session
+        $request->session()->regenerateToken(); // Regenerate CSRF token
+
+        return redirect()->route('login')->with('status', 'You have been logged out.');
+    }
 
     /**
      * Where to redirect users after login.
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+    {
+    if (auth()->user()->role === 'admin') {
+        return '/admin/page/market';
+    }
+
+        return '/user/page/market';
+
+    }
+
 
     /**
      * Create a new controller instance.

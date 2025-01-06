@@ -1,40 +1,55 @@
 <?php
 
+use App\Http\Controllers\QuizController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
 
-// Halaman Admin
-Route::get('/dashboard', function () {
-    return view('admin.page.dashboard');
+Route::prefix('user/page')->middleware(['auth'])->group(function () {
+    Route::get('market', [ProductController::class, 'userMarket'])->name('user.page.market');
 });
 
 Auth::routes();
 
-// Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Route::get('/user/dashboard', [App\Http\Controllers\Controller::class, 'dashboard'])->name('dashboard');
-Route::get('/market', [App\Http\Controllers\Controller::class, 'market'])->name('market');
-// Route::get('/quiz', [App\Http\Controllers\Controller::class, 'quiz'])->name('quiz');
-
-// Admin Routes (Prefix: admin/page)
-Route::prefix('admin/page')->group(function () {
+// Admin Routes
+Route::prefix('admin/page')->middleware('auth')->group(function () {
+    // Dashboard Route
     Route::get('dashboard', [Controller::class, 'index'])->name('admin.page.dashboard');
+
+    // Product Routes
     Route::get('market', [ProductController::class, 'index'])->name('admin.page.market');
-    Route::get('product/create', [ProductController::class, 'create'])->name('admin.page.product.create');
-    Route::post('market', [ProductController::class, 'store'])->name('admin.page.product.store');
-    Route::get('product/{product}/edit', [ProductController::class, 'edit'])->name('admin.page.product.edit');
-    Route::put('product/{product}', [ProductController::class, 'update'])->name('admin.page.product.update');
-    Route::delete('product/{product}', [ProductController::class, 'destroy'])->name('admin.page.product.destroy');
+    Route::get('market/create', [ProductController::class, 'create'])->name('admin.page.items.create');
+    Route::post('market', [ProductController::class, 'store'])->name('admin.page.items.store');
+    Route::get('market/{product}/edit', [ProductController::class, 'edit'])->name('admin.page.items.edit');
+    Route::put('market/{product}', [ProductController::class, 'update'])->name('admin.page.items.update');
+    Route::delete('market/{product}', [ProductController::class, 'destroy'])->name('admin.page.items.destroy');
+
+    // Question Routes
+    Route::get('question', [QuestionController::class, 'index'])->name('admin.page.question.index');
+    Route::get('question/create', [QuestionController::class, 'create'])->name('admin.page.question.create');
+    Route::post('question', [QuestionController::class, 'store'])->name('admin.page.question.store');
+    Route::get('question/{question}/edit', [QuestionController::class, 'edit'])->name('admin.page.question.edit');
+    Route::put('question/{question}', [QuestionController::class, 'update'])->name('admin.page.question.update');
+    Route::delete('question/{question}', [QuestionController::class, 'destroy'])->name('admin.page.question.destroy');
 });
+
+Route::prefix('admin/page')->middleware('auth')->group(function (){
+
+});
+
+
+
+Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('login', [LoginController::class, 'login']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+Route::get('register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('logout', [LoginController::class, 'logout'])->name('logout');
+
+
+

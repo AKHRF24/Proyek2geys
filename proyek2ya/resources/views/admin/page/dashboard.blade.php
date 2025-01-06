@@ -12,14 +12,6 @@
             </div>
         </div>
         <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5>Active Users</h5>
-                    <h2>987</h2>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
             <div class="card bg-warning text-dark">
                 <div class="card-body">
                     <h5>Total Points</h5>

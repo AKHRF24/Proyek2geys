@@ -28,7 +28,14 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected function redirectTo()
+{
+    if (auth()->user()->role === 'admin') {
+        return '/admin/page/market';
+    }
+
+    return '/user/page/market';
+}
 
     /**
      * Create a new controller instance.
@@ -52,6 +59,8 @@ class RegisterController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'role' => ['required', 'in:user,admin'],
+            'points' => ['sometimes', 'numeric', 'min:0']
         ]);
     }
 
@@ -64,9 +73,11 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'username' => $data['name'],
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+            'role' => $data['role'],
+            'points' => 0,
         ]);
     }
 }
