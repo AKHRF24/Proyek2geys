@@ -18,25 +18,25 @@
             <tr>
                 <td>{{ $answer->user->name }}</td>
                 <td>{{ $answer->answer }}</td>
-                <td>{{ ucfirst($answer->status) }}</td>
+                <td>{{ ucfirst($answer->status_question) }}</td>
                 <td>
-                    @if($answer->status === 'pending')
+                    @if($answer->status_question === 'pending')
                     <form action="{{ route('questions.verify', $answer->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="is_correct" value="1">
-                        <input type="hidden" name="status" value="approved">
+                        <input type="hidden" name="status_question" value="approved">
                         <button type="submit" class="btn btn-success btn-sm">Approve</button>
                     </form>
                     <form action="{{ route('questions.verify', $answer->id) }}" method="POST">
                         @csrf
                         @method('PUT')
                         <input type="hidden" name="is_correct" value="0">
-                        <input type="hidden" name="status" value="rejected">
+                        <input type="hidden" name="status_question" value="rejected">
                         <button type="submit" class="btn btn-danger btn-sm">Reject</button>
                     </form>
                     @else
-                    <span>{{ ucfirst($answer->status) }}</span>
+                    <span>{{ ucfirst($answer->status_question) }}</span>
                     @endif
                 </td>
             </tr>

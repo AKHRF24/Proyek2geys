@@ -21,10 +21,10 @@ class RegisterController extends Controller
     protected function redirectTo()
 {
     if (auth()->user()->role === 'admin') {
-        return '/admin/page/market';
+        return '/admin/page/dashboard';
     }
 
-    return '/user/page/market';
+    return '/user/page/dashboard';
 }
 
     /**

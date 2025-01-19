@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('points')->default(0);
             $table->enum('role', ['user', 'admin'])->default('user');
             $table->rememberToken(); // Add remember_token column
+            $table->boolean('is_admin')->default(false);
             $table->timestamps();
         });
     }

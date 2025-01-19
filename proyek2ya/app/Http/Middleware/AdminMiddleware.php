@@ -15,6 +15,6 @@ class AdminMiddleware
         }
 
         // Redirect jika bukan admin
-        return redirect('/user/page/quiz/show')->with('error', 'Unauthorized access!');
+        return redirect('/user/page/market')->with('error', 'Unauthorized access!');
     }
 }

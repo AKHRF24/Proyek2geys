@@ -1,67 +1,99 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
-use Tests\TestCase;
 use App\Models\User;
 use App\Models\Questions;
 use App\Models\UserAnswer;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
 class UserAnswerTest extends TestCase
 {
-    use RefreshDatabase;
+    use RefreshDatabase;  // Reset database setelah setiap pengujian
 
-    /**
-     * Test the fillable attributes of the model.
-     *
-     * @return void
-     */
-    public function testFillableAttributes()
+    /** @test */
+    public function it_can_create_user_answer()
     {
-        $data = [
-            'user_id' => 1,
-            'question_id' => 2,
+        // Persiapkan data pengguna dan pertanyaan
+        $user = User::factory()->create();
+        $question = Questions::factory()->create();
+
+        // Buat jawaban pengguna
+        $userAnswer = UserAnswer::create([
+            'user_id' => $user->id,
+            'question_id' => $question->id,
             'answer' => 'A',
             'is_correct' => true,
-            'status' => 'completed',
-        ];
+            'status' => 'approved',
+        ]);
 
-        $userAnswer = UserAnswer::create($data);
-
-        $this->assertInstanceOf(UserAnswer::class, $userAnswer);
-        $this->assertEquals($data['user_id'], $userAnswer->user_id);
-        $this->assertEquals($data['question_id'], $userAnswer->question_id);
-        $this->assertEquals($data['answer'], $userAnswer->answer);
-        $this->assertEquals($data['is_correct'], $userAnswer->is_correct);
-        $this->assertEquals($data['status'], $userAnswer->status);
+        // Periksa apakah jawaban pengguna berhasil disimpan
+        $this->assertDatabaseHas('user_answers', [
+            'user_id' => $user->id,
+            'question_id' => $question->id,
+            'answer' => 'A',
+            'is_correct' => true,
+            'status' => 'approved',
+        ]);
     }
 
-    /**
-     * Test the user relationship.
-     *
-     * @return void
-     */
-    public function testUserRelationship()
+    /** @test */
+    public function it_has_a_user_relationship()
     {
+        // Persiapkan data pengguna dan jawaban pengguna
         $user = User::factory()->create();
-        $userAnswer = UserAnswer::factory()->create(['user_id' => $user->id]);
+        $userAnswer = UserAnswer::factory()->create([
+            'user_id' => $user->id,
+        ]);
 
+        // Verifikasi apakah relasi pengguna dapat diakses dengan benar
         $this->assertInstanceOf(User::class, $userAnswer->user);
         $this->assertEquals($user->id, $userAnswer->user->id);
     }
 
-    /**
-     * Test the question relationship.
-     *
-     * @return void
-     */
-    public function testQuestionRelationship()
+    /** @test */
+    public function it_has_a_question_relationship()
     {
+        // Persiapkan data pertanyaan dan jawaban pengguna
         $question = Questions::factory()->create();
-        $userAnswer = UserAnswer::factory()->create(['question_id' => $question->id]);
+        $userAnswer = UserAnswer::factory()->create([
+            'question_id' => $question->id,
+        ]);
 
+        // Verifikasi apakah relasi pertanyaan dapat diakses dengan benar
         $this->assertInstanceOf(Questions::class, $userAnswer->question);
         $this->assertEquals($question->id, $userAnswer->question->id);
     }
+
+    /** @test */
+    public function it_requires_a_valid_answer()
+    {
+        // Validasi jika jawaban tidak boleh kosong
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        UserAnswer::create([
+            'user_id' => 1,
+            'question_id' => 1,
+            'answer' => '',
+            'is_correct' => true,
+            'status' => 'approved',
+        ]);
+    }
+
+    /** @test */
+    public function it_requires_a_valid_status()
+    {
+        // Validasi jika status harus salah satu dari nilai yang valid
+        $this->expectException(\Illuminate\Database\QueryException::class);
+
+        UserAnswer::create([
+            'user_id' => 1,
+            'question_id' => 1,
+            'answer' => 'A',
+            'is_correct' => true,
+            'status' => 'invalid_status', // Status yang tidak valid
+        ]);
+    }
+
 }

@@ -20,7 +20,7 @@
                 <td>{{ $transaction->product->nama_product }}</td>
                 <td>{{ $transaction->quantity }}</td>
                 <td>{{ $transaction->total_point }}</td>
-                <td>{{ $transaction->status }}</td>
+                <td>{{ $transaction->status_transaction }}</td>
             </tr>
             @endforeach
         </tbody>

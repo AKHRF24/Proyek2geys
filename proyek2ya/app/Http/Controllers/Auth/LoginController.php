@@ -20,6 +20,13 @@ class LoginController extends Controller
     */
 
     use AuthenticatesUsers;
+
+    /**
+     * Logout the user and invalidate the session.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function logout(Request $request)
     {
         auth()->logout(); // Logout user
@@ -36,17 +43,13 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-    if (auth()->user()->role === 'admin') {
-        return '/admin/page/market';
+        // Ensure the correct redirection based on user role
+        if (auth()->user()->is_admin) {
+            return '/admin/page/dashboard';
+        }
+
+        return '/home';
     }
-
-if (auth()->user()->role === 'dosen') {
-    return '/dosen/page/market'; // Redirect for dosen role
-}
-return '/user/page/market';
-
-    }
-
 
     /**
      * Create a new controller instance.

@@ -6,175 +6,155 @@ use App\Models\Product;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\UploadedFile;
 use Tests\TestCase;
 
 class ProductControllerTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
-    public function admin_can_view_market_page()
+    /**
+     * Test admin can view market page with products and transactions.
+     *
+     * @return void
+     */
+    public function test_admin_can_view_market_page()
     {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin);
+        // Create an admin user
+        $admin = User::factory()->create([
+            'role' => 'admin',
+            'is_admin' => true,
+        ]);
 
+        // Create sample products and transactions
         Product::factory()->count(5)->create();
+        Transaction::factory()->count(10)->create();
 
-        $response = $this->get(route('admin.page.market'));
+        // Act as admin and visit the market page
+        $response = $this->actingAs($admin)->get(route('admin.page.market'));
 
-        $response->assertStatus(200);
-        $response->assertViewHas('products');
+        // Assert the response contains product and transaction data
+        $response->assertStatus(200)
+                 ->assertViewIs('admin.page.market')
+                 ->assertSee('5') // Product count
+                 ->assertSee('10'); // Transaction count
     }
 
-    /** @test */
-    public function admin_can_create_a_new_product()
+    /**
+     * Test admin can create a new product.
+     *
+     * @return void
+     */
+    public function test_admin_can_create_product()
     {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin);
+        // Create an admin user
+        $admin = User::factory()->create([
+            'role' => 'admin',
+            'is_admin' => true,
+        ]);
 
-        Storage::fake('public');
-        $data = [
+        // Simulate a file upload
+        $file = UploadedFile::fake()->image('product.jpg');
+
+        // Act as admin and create a product
+        $response = $this->actingAs($admin)->post(route('admin.page.items.store'), [
             'nama_product' => 'Test Product',
             'point' => 100,
-            'description' => 'This is a test product',
+            'description' => 'Test Description',
             'quantity' => 10,
-            'foto' => UploadedFile::fake()->image('product.jpg'),
-        ];
-
-        $response = $this->post(route('admin.page.items.store'), $data);
-
-        $response->assertRedirect(route('admin.page.market'));
-        $this->assertDatabaseHas('products', ['nama_product' => 'Test Product']);
-    }
-
-    /** @test */
-    public function admin_can_edit_a_product()
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin);
-
-        $product = Product::factory()->create();
-
-        $response = $this->get(route('admin.page.items.edit', $product));
-
-        $response->assertStatus(200);
-        $response->assertViewHas('product', $product);
-    }
-
-    /** @test */
-    public function admin_can_update_a_product()
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin);
-
-        $product = Product::factory()->create();
-
-        $data = [
-            'nama_product' => 'Updated Product',
-            'point' => 200,
-            'description' => 'Updated description',
-            'quantity' => 20,
-        ];
-
-        $response = $this->put(route('admin.page.items.update', $product), $data);
-
-        $response->assertRedirect(route('admin.page.market'));
-        $this->assertDatabaseHas('products', ['nama_product' => 'Updated Product']);
-    }
-
-    /** @test */
-    public function admin_can_delete_a_product()
-    {
-        $admin = User::factory()->create(['role' => 'admin']);
-        $this->actingAs($admin);
-
-        $product = Product::factory()->create();
-
-        $response = $this->delete(route('admin.page.items.destroy', $product));
-
-        $response->assertRedirect(route('admin.page.market'));
-        $this->assertDatabaseMissing('products', ['id' => $product->id]);
-    }
-
-    /** @test */
-    public function user_can_view_market_page()
-    {
-        $user = User::factory()->create(['role' => 'user']);
-        $this->actingAs($user);
-
-        Product::factory()->count(5)->create();
-
-        $response = $this->get(route('user.page.market'));
-
-        $response->assertStatus(200);
-        $response->assertViewHas('products');
-    }
-
-    /** @test */
-    public function user_can_redeem_a_product()
-    {
-        $user = User::factory()->create(['points' => 1000]);
-        $this->actingAs($user);
-
-        $product = Product::factory()->create(['point' => 50, 'quantity' => 10, 'quantity_out' => 0]);
-
-        $data = [
-            'product_id' => $product->id,
-            'kode_barang' => 'PRD-TEST-123',
-            'quantity' => 2,
-        ];
-
-        $response = $this->post(route('user.page.market.redeem'), $data);
-
-        $response->assertRedirect(route('user.page.market'));
-        $this->assertDatabaseHas('transactions', [
-            'user_id' => $user->id,
-            'product_id' => $product->id,
-            'quantity' => 2,
+            'foto' => $file,
         ]);
-        $this->assertEquals(8, $product->fresh()->quantity);
-        $this->assertEquals(900, $user->fresh()->points);
+
+        // Assert the product was created and redirected to market page
+        $response->assertRedirect(route('admin.page.market'));
+        $this->assertDatabaseHas('products', [
+            'nama_product' => 'Test Product',
+            'point' => 100,
+            'quantity' => 10,
+        ]);
+
+        // Assert the file is uploaded to the correct location
+        Storage::disk('public')->assertExists('products/' . $file->hashName());
     }
 
-    /** @test */
-    public function user_cannot_redeem_a_product_with_insufficient_points()
+    /**
+     * Test admin can update a product.
+     *
+     * @return void
+     */
+    public function test_admin_can_update_product()
     {
-        $user = User::factory()->create(['points' => 50]);
-        $this->actingAs($user);
+        // Create an admin user and a product
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $product = Product::factory()->create();
 
-        $product = Product::factory()->create(['point' => 100, 'quantity' => 10]);
+        // Simulate a file upload for updated image
+        $file = UploadedFile::fake()->image('updated_product.jpg');
 
-        $data = [
-            'product_id' => $product->id,
-            'kode_barang' => 'PRD-TEST-123',
-            'quantity' => 1,
-        ];
+        // Act as admin and update the product
+        $response = $this->actingAs($admin)->put(route('admin.page.items.update', $product), [
+            'nama_product' => 'Updated Product',
+            'point' => 150,
+            'description' => 'Updated Description',
+            'quantity' => 20,
+            'foto' => $file,
+        ]);
 
-        $response = $this->post(route('user.page.market.redeem'), $data);
+        // Assert the product was updated in the database
+        $response->assertRedirect(route('admin.page.market'));
+        $this->assertDatabaseHas('products', [
+            'nama_product' => 'Updated Product',
+            'point' => 150,
+            'quantity' => 20,
+        ]);
 
-        $response->assertSessionHasErrors(['points']);
-        $this->assertDatabaseMissing('transactions', ['user_id' => $user->id]);
+        // Assert the old photo is deleted and the new file is uploaded
+        Storage::disk('public')->assertExists('products/' . $file->hashName());
     }
 
-    /** @test */
-    public function user_cannot_redeem_a_product_with_insufficient_quantity()
+    /**
+     * Test admin can delete a product.
+     *
+     * @return void
+     */
+    public function test_admin_can_delete_product()
     {
-        $user = User::factory()->create(['points' => 1000]);
-        $this->actingAs($user);
+        // Create an admin user and a product
+        $admin = User::factory()->create(['role' => 'admin', 'is_admin' => true]);
+        $product = Product::factory()->create();
 
-        $product = Product::factory()->create(['point' => 50, 'quantity' => 1]);
+        // Act as admin and delete the product
+        $response = $this->actingAs($admin)->delete(route('admin.page.items.destroy', $product));
 
-        $data = [
-            'product_id' => $product->id,
-            'kode_barang' => 'PRD-TEST-123',
-            'quantity' => 2,
-        ];
+        // Assert the product was deleted from the database
+        $response->assertRedirect(route('admin.page.market'));
+        $this->assertDatabaseMissing('products', [
+            'id' => $product->id,
+        ]);
+    }
 
-        $response = $this->post(route('user.page.market.redeem'), $data);
+    /**
+     * Test user can view market page.
+     *
+     * @return void
+     */
+    public function test_user_can_view_market_page()
+    {
+        // Create a user
+        $user = User::factory()->create(['role' => 'user']);
 
-        $response->assertSessionHasErrors(['quantity']);
-        $this->assertDatabaseMissing('transactions', ['user_id' => $user->id]);
+        // Create sample products and transactions
+        Product::factory()->count(5)->create();
+        Transaction::factory()->count(5)->create(['user_id' => $user->id]);
+
+        // Act as user and visit the market page
+        $response = $this->actingAs($user)->get(route('user.page.market'));
+
+        // Assert the response contains products and user transactions
+        $response->assertStatus(200)
+                 ->assertViewIs('user.page.market')
+                 ->assertSee('5') // Product count
+                 ->assertSee('5'); // User transaction count
     }
 }

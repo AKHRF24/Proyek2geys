@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreign('question_id')->references('id')->on('questions')->onDelete('cascade');
             $table->string('answer'); // User's Answer
             $table->boolean('is_correct')->default(false); // Indicates if the answer is correct
-            $table->enum('status', ['pending', 'approved', 'rejected'])->default('pending'); // Validation status
+            $table->enum('status_question', ['pending', 'approved', 'rejected'])->default('pending'); // Validation status
             $table->timestamps(); // Created at and Updated at
         });
     }

@@ -73,7 +73,7 @@ class TransactionController extends Controller
             'no_tlp' => $data['no_tlp'],
             'ekspedisi' => $data['ekspedisi'],
             'bayar' => 'Point Payment',
-            'status' => 'Paid',
+            'status_transaction' => 'Paid',
         ]);
 
         // Kurangi poin pengguna
@@ -95,11 +95,11 @@ class TransactionController extends Controller
     public function updateStatus(Request $request, $id)
     {
         $request->validate([
-            'status' => 'required|in:Paid,Unpaid',
+            'status_transaction' => 'required|in:Paid,Unpaid',
         ]);
 
         $transaction = Transaction::findOrFail($id);
-        $transaction->status = $request->status;
+        $transaction->status_transaction = $request->status_transaction;
         $transaction->save();
 
         return redirect()->route('admin.page.transactions')->with('success', 'Transaction status updated successfully.');

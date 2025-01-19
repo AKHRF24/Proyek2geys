@@ -18,7 +18,7 @@ class CreateTransactionsTable extends Migration
             $table->string('nama_user'); // Nama Pengguna
             $table->string('alamat'); // Alamat Pengguna
             $table->string('no_tlp'); // Nomor Telepon Pengguna
-            $table->enum('status', ['Unpaid', 'Paid'])->default('Unpaid'); // Status Transaksi
+            $table->enum('status_transaction', ['Unpaid', 'Paid'])->default('Unpaid'); // Status Transaksi
             $table->string('ekspedisi')->nullable(); // Nama Ekspedisi (Opsional)
             $table->string('bayar')->nullable(); // Informasi Metode Pembayaran
             $table->timestamps(); // Timestamps (created_at, updated_at)

@@ -33,11 +33,9 @@ class DashboardController extends Controller
     public function index()
     {
         if (auth()->user()->is_admin) {
-            return redirect()->route('admin.dashboard');
+            return redirect()->route('admin.page.dashboard');
         }
 
         return redirect()->route('user.page.dashboard');
     }
 }
-
-?>

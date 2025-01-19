@@ -29,10 +29,10 @@ class User extends Authenticatable
         return $this->hasMany(Questions::class);
     }
 
-    public function userAnswers()
-    {
-        return $this->hasMany(UserAnswer::class, 'user_id');
-    }
+    // public function userAnswers()
+    // {
+    //     return $this->hasMany(UserAnswer::class, 'user_id');
+    // }
 
     public function products()
     {

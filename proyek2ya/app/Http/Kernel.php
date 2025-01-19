@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
 
         // Middleware kustom
         'admin' => \App\Http\Middleware\AdminMiddleware::class, // Pastikan ini sesuai
+        'user' => \App\Http\Middleware\AdminMiddleware::class, // Pastikan ini sesuai
     ];
 }

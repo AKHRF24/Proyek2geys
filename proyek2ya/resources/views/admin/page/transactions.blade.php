@@ -24,8 +24,8 @@
                 <th>Total Points</th>
                 <th>Address</th>
                 <th>Phone</th>
-                <th>Expedition</th>
-                <th>Payment</th>
+                {{-- <th>Expedition</th> --}}
+                {{-- <th>Payment</th> --}}
                 <th>Status</th>
                 <th>Date</th>
                 <th>Actions</th>
@@ -42,11 +42,11 @@
                 <td>{{ $transaction->total_harga }}</td>
                 <td>{{ $transaction->alamat }}</td>
                 <td>{{ $transaction->no_tlp }}</td>
-                <td>{{ $transaction->ekspedisi }}</td>
-                <td>{{ $transaction->bayar }}</td>
+                {{-- <td>{{ $transaction->ekspedisi }}</td> --}}
+                {{-- <td>{{ $transaction->bayar }}</td> --}}
                 <td>
-                    <span class="badge {{ $transaction->status == 'Paid' ? 'bg-success' : 'bg-warning' }}">
-                        {{ ucfirst($transaction->status) }}
+                    <span class="badge {{ $transaction->status_transaction == 'Paid' ? 'bg-success' : 'bg-warning' }}">
+                        {{ ucfirst($transaction->status_transaction) }}
                     </span>
                 </td>
                 <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>

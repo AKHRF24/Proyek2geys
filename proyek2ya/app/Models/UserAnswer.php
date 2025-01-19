@@ -14,7 +14,7 @@ class UserAnswer extends Model
         'question_id',
         'answer',
         'is_correct',
-        'status',
+        'status_question',
     ];
 
     // Relasi ke User

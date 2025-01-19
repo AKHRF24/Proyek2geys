@@ -18,7 +18,7 @@ class Transaction extends Model
         'nama_user',
         'alamat',
         'no_tlp',
-        'status',
+        'status_transaction',
     ];
 
     public function user()

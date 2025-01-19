@@ -56,7 +56,7 @@ Route::prefix('admin/page')->middleware(['auth', 'role:admin'])->group(function 
     Route::resource('questions', QuestionController::class)->except(['show']);
     Route::get('/questions/{question}', [QuestionController::class, 'show'])->name('questions.show');
     Route::put('/{question}/verify', [QuestionController::class, 'verifyAnswer'])->name('questions.verify');
-});
+}); 
 
 // Login and Registration routes
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');

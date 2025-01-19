@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Questions;
-use App\Models\User; // Untuk manipulasi data user
+use App\Models\User;
 use App\Models\UserAnswer;
 use Illuminate\Http\Request;
 
@@ -64,15 +64,15 @@ class QuestionController extends Controller
 
         $validated = $request->validate([
             'is_correct' => 'required|boolean',
-            'status' => 'required|in:approved,rejected',
+            'status_question' => 'required|in:approved,rejected',
         ]);
 
         $userAnswer->update([
             'is_correct' => $validated['is_correct'],
-            'status' => $validated['status'],
+            'status_question' => $validated['status_question'],
         ]);
 
-        if ($validated['is_correct'] && $validated['status'] === 'approved') {
+        if ($validated['is_correct'] && $validated['status_question'] === 'approved') {
             if ($userAnswer->user && $userAnswer->question) {
                 $userAnswer->user->increment('points', $userAnswer->question->points);
             } else {
@@ -131,7 +131,7 @@ class QuestionController extends Controller
             'user_id' => auth()->id(),
             'answer' => $validated['answer'],
             'is_correct' => $validated['answer'] === $question->correct_answer,
-            'status' => 'pending', // Menunggu validasi admin
+            'status_question' => 'pending', // Menunggu validasi admin
         ]);
 
         return redirect()->route('user.page.index')

@@ -16,7 +16,7 @@
                 <th>Question</th>
                 <th>Correct Answer</th>
                 <th>Points</th>
-                <th>Validated</th>
+                {{-- <th>Validated</th> --}}
                 <th>Actions</th>
             </tr>
         </thead>
@@ -27,7 +27,7 @@
                 <td>{{ $question->question }}</td>
                 <td>{{ $question->correct_answer }}</td>
                 <td>{{ $question->points }}</td>
-                <td>{{ $question->is_validated ? 'Yes' : 'No' }}</td>
+                {{-- <td>{{ $question->is_validated ? 'Yes' : 'No' }}</td> --}}
                 <td>
                     <a href="{{ route('questions.edit', $question->id) }}" class="btn btn-warning btn-sm">Edit</a>
                     <a href="{{ route('questions.show', $question->id) }}" class="btn btn-info btn-sm">View</a>

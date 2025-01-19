@@ -12,13 +12,14 @@ class ProductFactory extends Factory
     public function definition()
     {
         return [
-            'nama_product' => $this->faker->word,
-            'point' => $this->faker->numberBetween(100, 1000),
+            'point' => $this->faker->numberBetween(1, 100),
             'description' => $this->faker->sentence,
-            'kode_barang' => 'PRD-' . $this->faker->unique()->numberBetween(100, 999),
-            'quantity' => $this->faker->numberBetween(1, 100),
+            'kode_barang' => $this->faker->unique()->word,
+            'nama_product' => $this->faker->word,
+            'quantity' => $this->faker->numberBetween(1, 50),
             'quantity_out' => $this->faker->numberBetween(0, 50),
-            'foto' => 'products/' . $this->faker->image('public/storage/products', 640, 480, null, false),
+            'foto' => $this->faker->imageUrl(),
+            'user_id' => \App\Models\User::factory(), // Assuming user factory exists
         ];
     }
 }

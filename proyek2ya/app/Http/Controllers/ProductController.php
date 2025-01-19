@@ -98,38 +98,38 @@ class ProductController extends Controller
     }
 
     // User: Menangani proses redeem produk
-    public function redeem(Request $request)
-    {
-        $validated = $request->validate([
-            'product_id' => 'required|exists:products,id',
-            'kode_barang' => 'required|string',
-            'quantity' => 'required|numeric|min:1',
-        ]);
+    // public function redeem(Request $request)
+    // {
+    //     $validated = $request->validate([
+    //         'product_id' => 'required|exists:products,id',
+    //         'kode_barang' => 'required|string',
+    //         'quantity' => 'required|numeric|min:1',
+    //     ]);
 
-        $product = Product::findOrFail($validated['product_id']);
+    //     $product = Product::findOrFail($validated['product_id']);
 
-        // Memeriksa ketersediaan quantity
-        if ($validated['quantity'] > ($product->quantity - $product->quantity_out)) {
-            return back()->withErrors(['quantity' => 'The requested quantity is not available.']);
-        }
+    //     // Memeriksa ketersediaan quantity
+    //     if ($validated['quantity'] > ($product->quantity - $product->quantity_out)) {
+    //         return back()->withErrors(['quantity' => 'The requested quantity is not available.']);
+    //     }
 
-        // Menghitung total poin
-        $totalPoints = $product->point * $validated['quantity'];
+    //     // Menghitung total poin
+    //     $totalPoints = $product->point * $validated['quantity'];
 
-        // Membuat transaksi baru
-        Transaction::create([
-            'user_id' => auth()->id(),
-            'product_id' => $product->id,
-            'kode_barang' => $validated['kode_barang'],
-            'quantity' => $validated['quantity'],
-            'total_point' => $totalPoints,
-            'status' => 'pending',
-        ]);
+    //     // Membuat transaksi baru
+    //     Transaction::create([
+    //         'user_id' => auth()->id(),
+    //         'product_id' => $product->id,
+    //         'kode_barang' => $validated['kode_barang'],
+    //         'quantity' => $validated['quantity'],
+    //         'total_point' => $totalPoints,
+    //         'status' => 'pending',
+    //     ]);
 
-        // Memperbarui quantity_out produk
-        $product->quantity_out += $validated['quantity'];
-        $product->save();
+    //     // Memperbarui quantity_out produk
+    //     $product->quantity_out += $validated['quantity'];
+    //     $product->save();
 
-        return redirect()->route('user.page.market')->with('success', 'Product redeemed successfully!');
-    }
+    //     return redirect()->route('user.page.market')->with('success', 'Product redeemed successfully!');
+    // }
 }

@@ -21,8 +21,6 @@
                 <th>Product</th>
                 <th>Quantity</th>
                 <th>Total Points</th>
-                <th>Expedition</th>
-                <th>Payment</th>
                 <th>Status</th>
                 <th>Date</th>
             </tr>
@@ -35,9 +33,9 @@
                 <td>{{ $transaction->product->nama_product }}</td>
                 <td>{{ $transaction->total_qty }}</td>
                 <td>{{ $transaction->total_harga }}</td>
-                <td>{{ $transaction->ekspedisi }}</td>
-                <td>{{ $transaction->bayar }}</td>
-                <td>{{ ucfirst($transaction->status) }}</td>
+                {{-- <td>{{ $transaction->ekspedisi }}</td>
+                <td>{{ $transaction->bayar }}</td> --}}
+                <td>{{ ucfirst($transaction->status_transaction) }}</td>
                 <td>{{ $transaction->created_at->format('d-m-Y H:i') }}</td>
             </tr>
             @endforeach
