@@ -1,7 +1,7 @@
 @extends('user.layouts.index')
 
 @section('content')
-<div class="card"
+{{-- <div class="card"
 style="margin-top: 5%; margin-bottom: 1%;
        margin-left: 10%; margin-right: 10%;
        padding: 50px; background-color: rgb(237, 236, 234);
@@ -27,18 +27,11 @@ style="margin-top: 5%; margin-bottom: 1%;
                </div>
            </div>
        </div>
-       {{--  --}}
-       <div class="container">
+        --}}
+       <div class="container mt-4">
             <h1>Welcome, {{ Auth::user()->name }}</h1>
             <p>Your Current Points: <strong>{{ Auth::user()->points }}</strong></p>
-            <a href="{{ route('user.quiz.list') }}" class="btn btn-primary">Take a Quiz</a>
+            <a href="{{ route('user.page.index') }}" class="btn btn-primary">Take a Quiz</a>
+            <a href="{{ route('user.page.market') }}" class="btn btn-primary">Browse Market</a>
         </div>
-
-       <div class="card p-5"
-       style="margin-left: 10%; margin-right: 10%;
-              padding: 50px;
-              border-style: groove">
-              <p>card ini untuk mengisi data seperti poin yang dimiliki, total quiz yang dikerjakan, poin yang terpakai</p>
-       </div>
-</div>
 @endsection

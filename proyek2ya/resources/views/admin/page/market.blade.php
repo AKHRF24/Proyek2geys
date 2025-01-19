@@ -7,27 +7,34 @@
 </div>
 
 @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
+<div class="alert alert-success">{{ session('success') }}</div>
 @endif
 
-<div class="table-responsive">
+<h2 class="mt-4">Products</h2>
+<div class="table-responsive mb-5">
     <table class="table table-bordered table-striped">
         <thead class="table-dark text-center">
             <tr>
                 <th>ID</th>
-                <th>Name</th>
-                <th>Points</th>
-                <th>Description</th>
-                <th>Actions</th>
+                <th>Foto</th>
+                <th>Nama Product</th>
+                <th>Point</th>
+                <th>Quantity</th>
+                <th>Aksi</th>
             </tr>
         </thead>
         <tbody>
-            @forelse ($products as $product)
+            @foreach ($products as $product)
             <tr>
-                <td class="text-center">{{ $product->id }}</td>
-                <td>{{ $product->name }}</td>
-                <td class="text-center">{{ $product->point }}</td>
-                <td>{{ $product->description }}</td>
+                <td>{{ $product->id }}</td>
+                <td>
+                    <img src="{{ $product->foto ? asset('storage/' . $product->foto) : asset('images/default.png') }}"
+                         alt="{{ $product->nama_product }}"
+                         class="img-thumbnail" style="width: 80px; height: 80px;">
+                </td>
+                <td>{{ $product->nama_product }}</td>
+                <td>{{ $product->point }}</td>
+                <td>{{ $product->quantity }}</td>
                 <td class="text-center">
                     <a href="{{ route('admin.page.items.edit', $product->id) }}" class="btn btn-sm btn-warning">Edit</a>
                     <form action="{{ route('admin.page.items.destroy', $product->id) }}" method="POST" style="display:inline;">
@@ -37,12 +44,9 @@
                     </form>
                 </td>
             </tr>
-            @empty
-            <tr>
-                <td colspan="5" class="text-center">No products available</td>
-            </tr>
-            @endforelse
+            @endforeach
         </tbody>
     </table>
 </div>
+{{ $products->links() }}
 @endsection

@@ -40,7 +40,10 @@ class LoginController extends Controller
         return '/admin/page/market';
     }
 
-        return '/user/page/market';
+if (auth()->user()->role === 'dosen') {
+    return '/dosen/page/market'; // Redirect for dosen role
+}
+return '/user/page/market';
 
     }
 
